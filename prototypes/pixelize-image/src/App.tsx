@@ -2,12 +2,13 @@ import { Canvas, Object3DNode, useThree, useLoader } from '@react-three/fiber';
 import { shaderMaterial } from '@react-three/drei';
 import { extend } from '@react-three/fiber';
 import { TextureLoader } from 'three';
-import type { Texture } from 'three';
+import { Texture, Vector2 } from 'three';
 
 // Define the shader material
 const PixelizedImage = shaderMaterial(
   {
     uTexture: null,
+    uResolution: null,
   },
   /* glsl */ `
     varying vec2 vUv;
@@ -19,8 +20,11 @@ const PixelizedImage = shaderMaterial(
   /* glsl */ `
     uniform sampler2D uTexture;
     varying vec2 vUv;
+    uniform vec2 uResolution;
     void main() {
-      vec4 texColor = texture2D(uTexture, vUv);
+      vec2 steppedUv = floor(vUv * 10.0) / 10.0;
+      vec4 texColor = texture2D(uTexture, steppedUv);
+
       gl_FragColor = texColor;
     }
   `
@@ -32,19 +36,20 @@ declare module '@react-three/fiber' {
   interface ThreeElements {
     pixelizedImage: Object3DNode<typeof PixelizedImage, typeof PixelizedImage> & {
       uTexture?: Texture;
+      uResolution?: Vector2;
     };
   }
 }
 
 const ShaderPlane = () => {
   const { viewport } = useThree();
-  const imageUrl = 'https://picsum.photos/1024';
+  const imageUrl = 'https://picsum.photos/512';
   const texture = useLoader(TextureLoader, imageUrl);
 
   return (
     <mesh>
       <planeGeometry args={[viewport.width, viewport.height]} />
-      <pixelizedImage uTexture={texture} />
+      <pixelizedImage uTexture={texture} uResolution={new Vector2(viewport.width, viewport.height)} />
     </mesh>
   );
 };
