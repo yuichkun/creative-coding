@@ -1,15 +1,17 @@
-import { Canvas, Object3DNode, useThree, useLoader } from '@react-three/fiber';
+import { Canvas, Object3DNode, useThree, useLoader, useFrame } from '@react-three/fiber';
 import { shaderMaterial } from '@react-three/drei';
 import { extend } from '@react-three/fiber';
 import { TextureLoader } from 'three';
 import { Texture, Vector2 } from 'three';
+import { useRef } from 'react';
 
 // Define the shader material
 const PixelizedImage = shaderMaterial(
   {
     uTexture: null,
     uResolution: null,
-    uPixelSize: null
+    uPixelSize: null,
+    uTime: 0
   },
   /* glsl */ `
     varying vec2 vUv;
@@ -23,8 +25,11 @@ const PixelizedImage = shaderMaterial(
     varying vec2 vUv;
     uniform vec2 uResolution;
     uniform float uPixelSize;
+    uniform float uTime;
     void main() {
-      vec2 steppedUv = floor(vUv * uPixelSize) / uPixelSize;
+      float pixelSize = uTime;
+      vec2 steppedUv = floor(vUv * pixelSize) / pixelSize;
+      // vec2 steppedUv = floor(vUv * uPixelSize) / uPixelSize;
       vec4 texColor = texture2D(uTexture, steppedUv);
 
       gl_FragColor = texColor;
@@ -36,10 +41,11 @@ extend({ PixelizedImage });
 
 declare module '@react-three/fiber' {
   interface ThreeElements {
-    pixelizedImage: Object3DNode<typeof PixelizedImage, typeof PixelizedImage> & {
+    pixelizedImage: Object3DNode<typeof PixelizedImage, InstanceType<typeof PixelizedImage>> & {
       uTexture?: Texture;
       uResolution?: Vector2;
       uPixelSize?: number;
+      uTime?: number; 
     };
   }
 }
@@ -48,11 +54,21 @@ const ShaderPlane = () => {
   const { viewport } = useThree();
   const imageUrl = 'https://picsum.photos/512';
   const texture = useLoader(TextureLoader, imageUrl);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const materialRef = useRef<any>(null);
+  
+  useFrame((state) => {
+    if (materialRef.current) {
+      materialRef.current.uniforms.uTime.value = state.clock.getElapsedTime();
+    }
+  });
 
   return (
     <mesh>
       <planeGeometry args={[viewport.width, viewport.height]} />
-      <pixelizedImage uTexture={texture} uResolution={new Vector2(viewport.width, viewport.height)} uPixelSize={30} />
+      <pixelizedImage
+        ref={materialRef}
+        uTexture={texture} uResolution={new Vector2(viewport.width, viewport.height)} uPixelSize={30} />
     </mesh>
   );
 };
