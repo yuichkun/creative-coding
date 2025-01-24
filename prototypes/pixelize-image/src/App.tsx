@@ -3,7 +3,7 @@ import { shaderMaterial } from '@react-three/drei';
 import { extend } from '@react-three/fiber';
 import { TextureLoader } from 'three';
 import { Texture, Vector2 } from 'three';
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 
 // Define the shader material
 const PixelizedImage = shaderMaterial(
@@ -11,7 +11,8 @@ const PixelizedImage = shaderMaterial(
     uTexture: null,
     uResolution: null,
     uPixelSize: null,
-    uTime: 0
+    uTime: 0,
+    uMouse: null,
   },
   /* glsl */ `
     varying vec2 vUv;
@@ -26,6 +27,7 @@ const PixelizedImage = shaderMaterial(
     uniform vec2 uResolution;
     uniform float uPixelSize;
     uniform float uTime;
+    uniform vec2 uMouse;
     void main() {
       float pixelSize = uTime;
       vec2 steppedUv = floor(vUv * pixelSize) / pixelSize;
@@ -46,6 +48,7 @@ declare module '@react-three/fiber' {
       uResolution?: Vector2;
       uPixelSize?: number;
       uTime?: number; 
+      uMouse?: Vector2;
     };
   }
 }
@@ -56,10 +59,23 @@ const ShaderPlane = () => {
   const texture = useLoader(TextureLoader, imageUrl);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const materialRef = useRef<any>(null);
+  const [mousePos, setMousePos] = useState(new Vector2(0, 0));
   
+  useEffect(() => {
+    const handleMouseMove = (event: MouseEvent) => {
+      setMousePos(new Vector2(
+        (event.clientX / window.innerWidth) * 2 - 1,
+        -(event.clientY / window.innerHeight) * 2 + 1
+      ));
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
   useFrame((state) => {
     if (materialRef.current) {
       materialRef.current.uniforms.uTime.value = state.clock.getElapsedTime();
+      materialRef.current.uniforms.uMouse.value = mousePos;
     }
   });
 
@@ -68,7 +84,10 @@ const ShaderPlane = () => {
       <planeGeometry args={[viewport.width, viewport.height]} />
       <pixelizedImage
         ref={materialRef}
-        uTexture={texture} uResolution={new Vector2(viewport.width, viewport.height)} uPixelSize={30} />
+        uTexture={texture} 
+        uResolution={new Vector2(viewport.width, viewport.height)} 
+        uPixelSize={30}
+        uMouse={mousePos} />
     </mesh>
   );
 };
