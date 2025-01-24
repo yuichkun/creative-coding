@@ -28,26 +28,36 @@ const PixelizedImage = shaderMaterial(
     uniform vec2 uMouse;
 
     void main() {
-      const int NUM_CIRCLES = 10;
-      const float MAX_RADIUS = 1.0; // Covers visible area
+      const int NUM_CIRCLES = 100;
+      const float MAX_RADIUS = 1.0;
       const float GRID_GROWTH_FACTOR = 1.1;
       
       float currentRadius = MAX_RADIUS;
-      float currentGridSize = 10.0;
+      float currentGridSize = 40.0;
       vec4 finalColor = texture2D(uTexture, vUv);
       
-      // Process from largest (outermost) to smallest (innermost)
       for(int i = 0; i < NUM_CIRCLES; i++) {
-          float scaledRadius = currentRadius * pow(0.8, float(i)); // Radical radius decrease
-          float scaledGridSize = currentGridSize * pow(GRID_GROWTH_FACTOR, float(i)); // Exponential grid growth
+          float scaledRadius = currentRadius * pow(0.8, float(i));
+          float scaledGridSize = currentGridSize * pow(GRID_GROWTH_FACTOR, float(i));
           
-          if(distance(uMouse, vUv) < scaledRadius) {
-              float cellSize = (scaledRadius * 2.0) / scaledGridSize;
-              vec2 gridCoord = floor((vUv - uMouse + vec2(scaledRadius)) / cellSize);
-              vec2 nearestCellCenter = uMouse - vec2(scaledRadius) + (gridCoord + 0.5) * cellSize;
-              
-              finalColor = texture2D(uTexture, nearestCellCenter);
-          }
+          // Calculate influence with overlap
+          float dist = distance(uMouse, vUv);
+          float influence = smoothstep(scaledRadius * 0.95, scaledRadius * 1.05, dist);
+          
+          // Grid calculations
+          float cellSize = (scaledRadius * 2.0) / scaledGridSize;
+          vec2 gridCoord = floor((vUv - uMouse + vec2(scaledRadius)) / cellSize);
+          vec2 nearestCellCenter = uMouse - vec2(scaledRadius) + (gridCoord + 0.5) * cellSize;
+          
+          // Swirling effect
+          vec2 dir = nearestCellCenter - uMouse;
+          float angle = -0.5 * dist * uTime;
+          mat2 rot = mat2(cos(angle), sin(angle), -sin(angle), cos(angle));
+          vec2 swirledCenter = uMouse + rot * dir;
+          
+          // Blend layers
+          vec4 layerColor = texture2D(uTexture, swirledCenter);
+          finalColor = mix(layerColor, finalColor, influence);
       }
       
       gl_FragColor = finalColor;
@@ -71,7 +81,7 @@ declare module '@react-three/fiber' {
 
 const ShaderPlane = () => {
   const { viewport } = useThree();
-  const imageUrl = 'https://picsum.photos/200/300';
+  const imageUrl = 'https://picsum.photos/300';
   const texture = useLoader(TextureLoader, imageUrl);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const materialRef = useRef<any>(null);
