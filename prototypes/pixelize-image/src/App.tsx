@@ -1,6 +1,6 @@
 import { shaderMaterial } from '@react-three/drei';
 import { Canvas, extend, Object3DNode, ThreeEvent, useFrame, useLoader, useThree } from '@react-three/fiber';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Texture, TextureLoader, Vector2 } from 'three';
 
 // Define the shader material
@@ -81,7 +81,8 @@ declare module '@react-three/fiber' {
 
 const ShaderPlane = () => {
   const { viewport } = useThree();
-  const imageUrl = 'https://picsum.photos/300';
+  const [seed, setSeed] = useState('9');
+  const imageUrl = `https://picsum.photos/seed/${seed}/300/300`;
   const texture = useLoader(TextureLoader, imageUrl);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const materialRef = useRef<any>(null);
@@ -99,8 +100,12 @@ const ShaderPlane = () => {
     mouseRef.current.set(x, y);
   };
 
+  const handleClick = () => {
+    setSeed(Math.random().toString(36).substring(7));
+  };
+
   return (
-    <mesh onPointerMove={handlePointerMove}>
+    <mesh onPointerMove={handlePointerMove} onClick={handleClick}>
       <planeGeometry args={[viewport.width, viewport.height]} />
       <pixelizedImage
         ref={materialRef}

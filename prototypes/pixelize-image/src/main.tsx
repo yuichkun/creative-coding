@@ -5,6 +5,10 @@ import App from './App.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <div style={{ position: 'relative' }}>
+      <App />
+      <div style={
+        { position: 'absolute', top: '80%', left: '50%', transform: 'translate(-50%, 0%)', 'fontFamily': 'sans-serif', color: 'white', 'fontWeight': 'bold' }}>Click to Swap Image</div>
+    </div>
   </StrictMode>,
 )
