@@ -28,38 +28,30 @@ const PixelizedImage = shaderMaterial(
     uniform vec2 uMouse;
 
     void main() {
-      // 1. Calculate distance from the mouse to the current fragment
-      float d = distance(uMouse, vUv);
-      float diameter = 0.2; // Diameter of the circular area
-      float radius = diameter / 2.0; // Radius of the circular area
-      float gridSize = 2.0; // Number of grid cells (e.g., 4x4 grid)
-  
-      // 2. Check if the fragment is inside the circular area
-      if (d < radius) {
-          // 3. Calculate the size of each grid cell in UV space
-          float cellSize = diameter / gridSize;
-  
-          // 4. Shift the coordinate system so the mouse is at the center of the grid
-          //    and all coordinates are positive
-          vec2 gridCoord = floor((vUv - uMouse + vec2(radius)) / cellSize);
-  
-          // 5. Calculate the center of the nearest grid cell
-          vec2 nearestCellCenter = 
-            (gridCoord + 0.5) * cellSize // Convert grid units back to shifted UV space
-            - vec2(radius)               // Undo the earlier shift
-            + uMouse; 
-  
-          // 6. Sample the texture at the center of the nearest grid cell
-          vec4 texColor = texture2D(uTexture, nearestCellCenter);
-  
-          // 7. Set the fragment color to the sampled color
-          gl_FragColor = texColor;
-      } else {
-          // 8. If outside the circular area, set the color to black
-          gl_FragColor = vec4(vec3(0.0), 1.0);
+      const int NUM_CIRCLES = 10;
+      const float MAX_RADIUS = 1.0; // Covers visible area
+      const float GRID_GROWTH_FACTOR = 1.1;
+      
+      float currentRadius = MAX_RADIUS;
+      float currentGridSize = 10.0;
+      vec4 finalColor = texture2D(uTexture, vUv);
+      
+      // Process from largest (outermost) to smallest (innermost)
+      for(int i = 0; i < NUM_CIRCLES; i++) {
+          float scaledRadius = currentRadius * pow(0.8, float(i)); // Radical radius decrease
+          float scaledGridSize = currentGridSize * pow(GRID_GROWTH_FACTOR, float(i)); // Exponential grid growth
+          
+          if(distance(uMouse, vUv) < scaledRadius) {
+              float cellSize = (scaledRadius * 2.0) / scaledGridSize;
+              vec2 gridCoord = floor((vUv - uMouse + vec2(scaledRadius)) / cellSize);
+              vec2 nearestCellCenter = uMouse - vec2(scaledRadius) + (gridCoord + 0.5) * cellSize;
+              
+              finalColor = texture2D(uTexture, nearestCellCenter);
+          }
       }
+      
+      gl_FragColor = finalColor;
   }
-
   `
 );
 
@@ -79,7 +71,7 @@ declare module '@react-three/fiber' {
 
 const ShaderPlane = () => {
   const { viewport } = useThree();
-  const imageUrl = 'https://picsum.photos/seed/picsum/200/300';
+  const imageUrl = 'https://picsum.photos/200/300';
   const texture = useLoader(TextureLoader, imageUrl);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const materialRef = useRef<any>(null);
