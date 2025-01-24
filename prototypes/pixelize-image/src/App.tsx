@@ -9,6 +9,7 @@ const PixelizedImage = shaderMaterial(
   {
     uTexture: null,
     uResolution: null,
+    uPixelSize: null
   },
   /* glsl */ `
     varying vec2 vUv;
@@ -21,8 +22,9 @@ const PixelizedImage = shaderMaterial(
     uniform sampler2D uTexture;
     varying vec2 vUv;
     uniform vec2 uResolution;
+    uniform float uPixelSize;
     void main() {
-      vec2 steppedUv = floor(vUv * 10.0) / 10.0;
+      vec2 steppedUv = floor(vUv * uPixelSize) / uPixelSize;
       vec4 texColor = texture2D(uTexture, steppedUv);
 
       gl_FragColor = texColor;
@@ -37,6 +39,7 @@ declare module '@react-three/fiber' {
     pixelizedImage: Object3DNode<typeof PixelizedImage, typeof PixelizedImage> & {
       uTexture?: Texture;
       uResolution?: Vector2;
+      uPixelSize?: number;
     };
   }
 }
@@ -49,7 +52,7 @@ const ShaderPlane = () => {
   return (
     <mesh>
       <planeGeometry args={[viewport.width, viewport.height]} />
-      <pixelizedImage uTexture={texture} uResolution={new Vector2(viewport.width, viewport.height)} />
+      <pixelizedImage uTexture={texture} uResolution={new Vector2(viewport.width, viewport.height)} uPixelSize={30} />
     </mesh>
   );
 };
