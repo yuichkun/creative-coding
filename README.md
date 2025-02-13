@@ -1,6 +1,6 @@
-# Curated List of My Prototypes
+# ⚡ Code + Art
 
-A collection of creative coding experiments and prototypes by [Yuichi Yogo](https://github.com/yuichkun).
+Creative coding projects by [Yuichi Yogo](https://github.com/yuichkun).
 
 <!-- toc -->
 
