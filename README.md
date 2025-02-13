@@ -7,7 +7,7 @@ A collection of creative coding experiments and prototypes by [Yuichi Yogo](http
 
 ### Chromesthizer
 
-![](./prototypes/chromesthizer/chromesthizer.gif)
+![](https://raw.githubusercontent.com/yuichkun/chromesthizer/master/chromesthizer.gif)
 [🔗 Demo](https://chromesthizer.vercel.app/) | [📝 Learn more](./prototypes/chromesthizer/README.md)
 
 An audio-visual experiment that transforms images into sound using Web Audio API. Upload images and hear their sonic representation with real-time filter controls.
