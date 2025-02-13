@@ -1,3 +1,6 @@
 [submodule "prototypes/chromesthizer"]
 	path = prototypes/chromesthizer
 	url = https://github.com/yuichkun/chromesthizer
+[submodule "prototypes/single-motion-granular"]
+	path = prototypes/single-motion-granular
+	url = https://github.com/yuichkun/kentaro-granular-web

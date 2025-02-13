@@ -5,6 +5,13 @@ A collection of creative coding experiments and prototypes by [Yuichi Yogo](http
 
 ## Audio
 
+### Single Motion Granular
+
+![](https://raw.githubusercontent.com/yuichkun/kentaro-granular-web/master/single-motion-granular.gif)
+[🔗 Demo](https://kentaro-granular-web.vercel.app/) | [📝 Learn more](./prototypes/single-motion-granular/README.md)
+
+A granular synthesis experiment with an intuitive XY pad interface. Transform audio samples into rich, evolving textures through fluid motion control. Built with RNBO, featuring DSP by [kentaro tools](https://kentaro.tools/).
+
 ### Chromesthizer
 
 ![](https://raw.githubusercontent.com/yuichkun/chromesthizer/master/chromesthizer.gif)
