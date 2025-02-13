@@ -19,3 +19,6 @@
 [submodule "prototypes/css-mask-video-with-text"]
 	path = prototypes/css-mask-video-with-text
 	url = https://github.com/yuichkun/css-mask-video-with-text
+[submodule "prototypes/animated-url-bar"]
+	path = prototypes/animated-url-bar
+	url = https://github.com/yuichkun/animated-url-bar
