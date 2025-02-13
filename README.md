@@ -11,6 +11,8 @@ A collection of creative coding experiments and prototypes by [Yuichi Yogo](http
       - [n4m Feature Extractor](#n4m-feature-extractor)
       - [PoseNet for Max](#posenet-for-max)
     - [Chromesthizer](#chromesthizer)
+    - [Plugins](#plugins)
+      - [Interval Explorer](#interval-explorer)
   - [Graphics](#graphics)
     - [Kokuyo Design Award 2022 Virtual Trophy](#kokuyo-design-award-2022-virtual-trophy)
     - [Layered Pixelation](#layered-pixelation)
@@ -49,6 +51,15 @@ A Max/MSP integration of TensorFlow.js PoseNet model via Electron. Enables real-
 [🔗 Demo](https://chromesthizer.vercel.app/) • [📝 Learn more](https://github.com/yuichkun/chromesthizer/blob/master/README.md)
 
 An audio-visual experiment that transforms images into sound using Web Audio API. Upload images and hear their sonic representation with real-time filter controls.
+
+### Plugins
+
+#### Interval Explorer
+![](https://raw.githubusercontent.com/yuichkun/interval-explorer/master/interval-explorer.png)
+
+[📝 Learn more](https://github.com/yuichkun/interval-explorer)
+
+A Max for Live MIDI device for exploring musical interval combinations and chord voicings. Features combinatorial interval generation and real-time MIDI processing for experimental composition.
 
 ## Graphics
 

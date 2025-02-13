@@ -13,3 +13,6 @@
 [submodule "prototypes/n4m-posenet"]
 	path = prototypes/n4m-posenet
 	url = https://github.com/yuichkun/n4m-posenet
+[submodule "prototypes/interval-explorer"]
+	path = prototypes/interval-explorer
+	url = https://github.com/yuichkun/interval-explorer
