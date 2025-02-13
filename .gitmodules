@@ -1,0 +1,3 @@
+[submodule "prototypes/chromesthizer"]
+	path = prototypes/chromesthizer
+	url = https://github.com/yuichkun/chromesthizer
