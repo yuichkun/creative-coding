@@ -5,19 +5,11 @@ A collection of creative coding experiments and prototypes by [Yuichi Yogo](http
 
 ## Audio
 
-### Single Motion Granular
-
-![](https://raw.githubusercontent.com/yuichkun/kentaro-granular-web/master/single-motion-granular.gif)
-[🔗 Demo](https://kentaro-granular-web.vercel.app/) | [📝 Learn more](https://github.com/yuichkun/kentaro-granular-web/blob/master/README.md)
-
-A granular synthesis experiment with an intuitive XY pad interface. Transform audio samples into rich, evolving textures through fluid motion control. Built with RNBO, featuring DSP by [kentaro tools](https://kentaro.tools/).
-
-### Chromesthizer
-
-![](https://raw.githubusercontent.com/yuichkun/chromesthizer/master/chromesthizer.gif)
-[🔗 Demo](https://chromesthizer.vercel.app/) | [📝 Learn more](https://github.com/yuichkun/chromesthizer/blob/master/README.md)
-
-An audio-visual experiment that transforms images into sound using Web Audio API. Upload images and hear their sonic representation with real-time filter controls.
+| Single Motion Granular | Chromesthizer |
+|:----------------------|:---------------|
+| ![](https://raw.githubusercontent.com/yuichkun/kentaro-granular-web/master/single-motion-granular.gif) | ![](https://raw.githubusercontent.com/yuichkun/chromesthizer/master/chromesthizer.gif) |
+| [🔗 Demo](https://kentaro-granular-web.vercel.app/) • [📝 Learn more](https://github.com/yuichkun/kentaro-granular-web/blob/master/README.md) | [🔗 Demo](https://chromesthizer.vercel.app/) • [📝 Learn more](https://github.com/yuichkun/chromesthizer/blob/master/README.md) |
+| A granular synthesis experiment with an intuitive XY pad interface. Transform audio samples into rich, evolving textures through fluid motion control. Built with RNBO, featuring DSP by [kentaro tools](https://kentaro.tools/). | An audio-visual experiment that transforms images into sound using Web Audio API. Upload images and hear their sonic representation with real-time filter controls. |
 
 ## WebGL
 
