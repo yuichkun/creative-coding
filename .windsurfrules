@@ -7,6 +7,10 @@ This repository serves as the portfolio of [Yuichi Yogo](https://github.com/yuic
    - Use hierarchical headings for clear organization (H2 for categories, H3 for projects)
    - Group projects by technology stack (e.g. Audio/WebGL/Graphics)
    - Focus on technical implementation details in descriptions
+   - After adding or updating entries, regenerate the table of contents:
+     ```bash
+     npx markdown-toc -i README.md
+     ```
 
 2. **Repository Structure**  
    The portfolio uses git submodules to manage individual projects. When adding a new project:
