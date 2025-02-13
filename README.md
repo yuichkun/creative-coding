@@ -7,6 +7,7 @@ A collection of creative coding experiments and prototypes by [Yuichi Yogo](http
 - [Audio](#audio)
   * [Single Motion Granular](#single-motion-granular)
   * [Chromesthizer](#chromesthizer)
+  * [n4m Feature Extractor](#n4m-feature-extractor)
 - [Graphics](#graphics)
   * [Kokuyo Design Award 2022 Virtual Trophy](#kokuyo-design-award-2022-virtual-trophy)
   * [Layered Pixelation](#layered-pixelation)
@@ -29,6 +30,13 @@ A granular synthesis experiment with an intuitive XY pad interface. Transform au
 [🔗 Demo](https://chromesthizer.vercel.app/) • [📝 Learn more](https://github.com/yuichkun/chromesthizer/blob/master/README.md)
 
 An audio-visual experiment that transforms images into sound using Web Audio API. Upload images and hear their sonic representation with real-time filter controls.
+
+### n4m Feature Extractor
+![](https://user-images.githubusercontent.com/14039540/56828415-43196480-682f-11e9-97df-701ad2c3528c.gif)
+
+[📝 Learn more](https://github.com/yuichkun/n4m-feature-extractor)
+
+A Max/MSP-based real-time neural network training interface. Create custom image classification models by feeding webcam streams through ml5.js. Built for Max 8.0.0+, enabling interactive machine learning experimentation.
 
 ## Graphics
 

@@ -7,3 +7,6 @@
 [submodule "prototypes/image-tessellation"]
 	path = prototypes/image-tessellation
 	url = https://github.com/yuichkun/mosaic-by-image-gathering
+[submodule "prototypes/n4m-feature-extractor"]
+	path = prototypes/n4m-feature-extractor
+	url = https://github.com/yuichkun/n4m-feature-extractor
