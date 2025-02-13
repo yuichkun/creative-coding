@@ -16,3 +16,6 @@
 [submodule "prototypes/interval-explorer"]
 	path = prototypes/interval-explorer
 	url = https://github.com/yuichkun/interval-explorer
+[submodule "prototypes/css-mask-video-with-text"]
+	path = prototypes/css-mask-video-with-text
+	url = https://github.com/yuichkun/css-mask-video-with-text
