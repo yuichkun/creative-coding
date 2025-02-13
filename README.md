@@ -11,7 +11,7 @@ A collection of creative coding experiments and prototypes by [Yuichi Yogo](http
 | [🔗 Demo](https://kentaro-granular-web.vercel.app/) • [📝 Learn more](https://github.com/yuichkun/kentaro-granular-web/blob/master/README.md) | [🔗 Demo](https://chromesthizer.vercel.app/) • [📝 Learn more](https://github.com/yuichkun/chromesthizer/blob/master/README.md) |
 | A granular synthesis experiment with an intuitive XY pad interface. Transform audio samples into rich, evolving textures through fluid motion control. Built with RNBO, featuring DSP by [kentaro tools](https://kentaro.tools/). | An audio-visual experiment that transforms images into sound using Web Audio API. Upload images and hear their sonic representation with real-time filter controls. |
 
-## WebGL
+## Graphics
 
 | Kokuyo Design Award 2022 Virtual Trophy | Layered Pixelation |
 |:----------------------------------------|:------------------|
