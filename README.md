@@ -2,6 +2,18 @@
 
 A collection of creative coding experiments and prototypes by [Yuichi Yogo](https://github.com/yuichkun).
 
+<!-- toc -->
+
+- [Audio](#audio)
+  * [Single Motion Granular](#single-motion-granular)
+  * [Chromesthizer](#chromesthizer)
+- [Graphics](#graphics)
+  * [Kokuyo Design Award 2022 Virtual Trophy](#kokuyo-design-award-2022-virtual-trophy)
+  * [Layered Pixelation](#layered-pixelation)
+  * [Image Tessellation](#image-tessellation)
+
+<!-- tocstop -->
+
 ## Audio
 
 ### Single Motion Granular
