@@ -4,7 +4,7 @@ This repository serves as the portfolio of [Yuichi Yogo](https://github.com/yuic
 
 ## Core Principles
 1. **Project Organization**  
-   - Maintain 2-column layout for project entries  
+   - Use hierarchical headings for clear organization (H2 for categories, H3 for projects)
    - Group projects by technology stack (e.g. Audio/WebGL/Graphics)
    - Focus on technical implementation details in descriptions
 
@@ -30,9 +30,23 @@ This repository serves as the portfolio of [Yuichi Yogo](https://github.com/yuic
 
 ## Project Entry Format
 ```markdown
-| Project A | Project B |
-|:---------|:---------|
-| ![](URL) | ![](URL) |
-| [🔗 Demo](URL) • [📝 Docs](URL) | [🔗 Demo](URL) • [📝 Docs](URL) |
-| Technical description | Technical description |
+### Project Name
+![Project Demo](URL-to-demo-gif)
+
+[🔗 Demo](URL) • [📝 Learn more](URL)
+
+Technical description of the project, focusing on implementation details,
+technologies used, and unique features.
+```
+
+### Example Entry
+```markdown
+### Single Motion Granular
+![](https://raw.githubusercontent.com/yuichkun/kentaro-granular-web/master/single-motion-granular.gif)
+
+[🔗 Demo](https://kentaro-granular-web.vercel.app/) • [📝 Learn more](https://github.com/yuichkun/kentaro-granular-web/blob/master/README.md)
+
+A granular synthesis experiment with an intuitive XY pad interface. Transform audio 
+samples into rich, evolving textures through fluid motion control. Built with RNBO, 
+featuring DSP by [kentaro tools](https://kentaro.tools/).
 ```
