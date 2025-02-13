@@ -15,7 +15,7 @@ A collection of creative coding experiments and prototypes by [Yuichi Yogo](http
 
 | Kokuyo Design Award 2022 Virtual Trophy | Layered Pixelation |
 |:----------------------------------------|:------------------|
-| ![](./assets/kokuyo-design-award-2022.gif) | ![](./prototypes/layered-pixelation/screenshot.gif) |
+| <img src="./assets/kokuyo-design-award-2022.gif" width="500"> | <img src="./prototypes/layered-pixelation/screenshot.gif" width="500"> |
 | [🔗 Demo](https://www.kokuyo.co.jp/trophy2022/) • [📝 Learn more](https://yogo-management-office.com/works/kokuyo-design-award-2022) | [🔗 Demo](https://layered-pixelation.vercel.app/) • [📝 Learn more](./prototypes/layered-pixelation/README.md) |
 | A [Next.js](https://nextjs.org/)-based 3D trophy viewer that displays time-evolving models using [model-viewer](https://modelviewer.dev/). Features daily model transitions with extensive [Playwright](https://playwright.dev/) testing to ensure consistent rendering across 366 days. | Interactive WebGL experiment with dynamic pixelation effects and mouse-based distortion. |
 
