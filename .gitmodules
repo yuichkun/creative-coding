@@ -4,3 +4,6 @@
 [submodule "prototypes/single-motion-granular"]
 	path = prototypes/single-motion-granular
 	url = https://github.com/yuichkun/kentaro-granular-web
+[submodule "prototypes/image-tessellation"]
+	path = prototypes/image-tessellation
+	url = https://github.com/yuichkun/mosaic-by-image-gathering
