@@ -10,3 +10,6 @@
 [submodule "prototypes/n4m-feature-extractor"]
 	path = prototypes/n4m-feature-extractor
 	url = https://github.com/yuichkun/n4m-feature-extractor
+[submodule "prototypes/n4m-posenet"]
+	path = prototypes/n4m-posenet
+	url = https://github.com/yuichkun/n4m-posenet
