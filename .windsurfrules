@@ -1,0 +1,38 @@
+# Portfolio Documentation Guidelines
+
+This repository serves as the portfolio of [Yuichi Yogo](https://github.com/yuichkun), showcasing various creative coding experiments and prototypes. This guide outlines how to maintain and update the portfolio documentation consistently.
+
+## Core Principles
+1. **Project Organization**  
+   - Maintain 2-column layout for project entries  
+   - Group projects by technology stack (e.g. Audio/WebGL/Graphics)
+   - Focus on technical implementation details in descriptions
+
+2. **Repository Structure**  
+   The portfolio uses git submodules to manage individual projects. When adding a new project:
+   ```bash
+   # 1. Create a new directory under prototypes/
+   # 2. Add the project as a submodule
+   git submodule add https://github.com/yuichkun/<project-name> prototypes/<local-name>
+   # Example: Image Tessellation project
+   git submodule add https://github.com/yuichkun/mosaic-by-image-gathering prototypes/image-tessellation
+   ```
+
+3. **Asset Management**  
+   Always use absolute GitHub URLs for assets from submodules:
+   ```markdown
+   <!-- Good -->
+   ![](https://raw.githubusercontent.com/yuichkun/repo-name/main/image.gif)
+
+   <!-- Bad --> 
+   ![](./prototypes/project/image.gif)
+   ```
+
+## Project Entry Format
+```markdown
+| Project A | Project B |
+|:---------|:---------|
+| ![](URL) | ![](URL) |
+| [🔗 Demo](URL) • [📝 Docs](URL) | [🔗 Demo](URL) • [📝 Docs](URL) |
+| Technical description | Technical description |
+```
