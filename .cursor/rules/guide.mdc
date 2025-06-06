@@ -1,6 +1,11 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
 # Portfolio Documentation Guidelines
 
-This repository serves as the portfolio of [Yuichi Yogo](https://github.com/yuichkun), showcasing various creative coding experiments and prototypes. This guide outlines how to maintain and update the portfolio documentation consistently.
+This repository serves as the portfolio of [Yuichi Yogo](mdc:https:/github.com/yuichkun), showcasing various creative coding experiments and prototypes. This guide outlines how to maintain and update the portfolio documentation consistently.
 
 ## Core Principles
 1. **Project Organization**  
@@ -35,9 +40,9 @@ This repository serves as the portfolio of [Yuichi Yogo](https://github.com/yuic
 ## Project Entry Format
 ```markdown
 ### Project Name
-![Project Demo](URL-to-demo-gif)
+![Project Demo](mdc:URL-to-demo-gif)
 
-[🔗 Demo](URL) • [📝 Learn more](URL)
+[🔗 Demo](mdc:URL) • [📝 Learn more](mdc:URL)
 
 Technical description of the project, focusing on implementation details,
 technologies used, and unique features.
@@ -48,9 +53,9 @@ technologies used, and unique features.
 ### Single Motion Granular
 ![](https://raw.githubusercontent.com/yuichkun/kentaro-granular-web/master/single-motion-granular.gif)
 
-[🔗 Demo](https://kentaro-granular-web.vercel.app/) • [📝 Learn more](https://github.com/yuichkun/kentaro-granular-web/blob/master/README.md)
+[🔗 Demo](mdc:https:/kentaro-granular-web.vercel.app) • [📝 Learn more](mdc:https:/github.com/yuichkun/kentaro-granular-web/blob/master/README.md)
 
 A granular synthesis experiment with an intuitive XY pad interface. Transform audio 
 samples into rich, evolving textures through fluid motion control. Built with RNBO, 
-featuring DSP by [kentaro tools](https://kentaro.tools/).
+featuring DSP by [kentaro tools](mdc:https:/kentaro.tools).
 ```
