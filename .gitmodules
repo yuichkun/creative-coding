@@ -22,3 +22,6 @@
 [submodule "prototypes/animated-url-bar"]
 	path = prototypes/animated-url-bar
 	url = https://github.com/yuichkun/animated-url-bar
+[submodule "prototypes/people"]
+	path = prototypes/people
+	url = https://github.com/yuichkun/people
