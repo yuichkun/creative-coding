@@ -4,21 +4,23 @@ Creative coding projects by [Yuichi Yogo](https://github.com/yuichkun).
 
 <!-- toc -->
 
-- [Audio](#audio)
-  * [Cycling '74 Max](#cycling-74-max)
-    + [Single Motion Granular](#single-motion-granular)
-    + [n4m Feature Extractor](#n4m-feature-extractor)
-    + [PoseNet for Max](#posenet-for-max)
-  * [Chromesthizer](#chromesthizer)
-  * [Plugins](#plugins)
-    + [Interval Explorer](#interval-explorer)
-- [Visuals](#visuals)
-  * [Kokuyo Design Award 2022 Virtual Trophy](#kokuyo-design-award-2022-virtual-trophy)
-  * [Layered Pixelation](#layered-pixelation)
-  * [Image Tessellation](#image-tessellation)
-  * [Text-Masked Video](#text-masked-video)
-  * [Animated URL Bar](#animated-url-bar)
-  * [ASCII Art Generator](#ascii-art-generator)
+- [⚡ Code + Art](#-code--art)
+  - [Audio](#audio)
+    - [Cycling '74 Max](#cycling-74-max)
+      - [Single Motion Granular](#single-motion-granular)
+      - [n4m Feature Extractor](#n4m-feature-extractor)
+      - [PoseNet for Max](#posenet-for-max)
+    - [Chromesthizer](#chromesthizer)
+    - [Plugins](#plugins)
+      - [Interval Explorer](#interval-explorer)
+  - [Visuals](#visuals)
+    - [People](#people)
+    - [Kokuyo Design Award 2022 Virtual Trophy](#kokuyo-design-award-2022-virtual-trophy)
+    - [Layered Pixelation](#layered-pixelation)
+    - [Image Tessellation](#image-tessellation)
+    - [Text-Masked Video](#text-masked-video)
+    - [Animated URL Bar](#animated-url-bar)
+    - [ASCII Art Generator](#ascii-art-generator)
 
 <!-- tocstop -->
 
@@ -64,6 +66,13 @@ An audio-visual experiment that transforms images into sound using Web Audio API
 A Max for Live MIDI device for exploring musical interval combinations and chord voicings. Features combinatorial interval generation and real-time MIDI processing for experimental composition.
 
 ## Visuals
+
+### People
+![](https://raw.githubusercontent.com/yuichkun/people/main/people_thumbnail.png)
+
+[🎥 Video](https://www.youtube.com/watch?v=v-NETHnK0Mo) • [📝 Learn more](https://github.com/yuichkun/people)
+
+An interactive art installation exploring communication and artificial consciousness through networked string telephones with embedded AI. Each ESP32-powered cup displays text on OLED screens and plays audio, while modifying word vectors to reinterpret messages as they pass through the chain—creating a technological game of telephone that questions the nature of communication and personhood.
 
 ### Kokuyo Design Award 2022 Virtual Trophy
 <img src="./assets/kokuyo-design-award-2022.gif" width="500">
