@@ -25,3 +25,6 @@
 [submodule "prototypes/people"]
 	path = prototypes/people
 	url = https://github.com/yuichkun/people
+[submodule "prototypes/pitch-dropper"]
+	path = prototypes/pitch-dropper
+	url = https://github.com/yuichkun/web-audio-pitch-dropper

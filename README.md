@@ -4,23 +4,23 @@ Creative coding projects by [Yuichi Yogo](https://github.com/yuichkun).
 
 <!-- toc -->
 
-- [⚡ Code + Art](#-code--art)
-  - [Audio](#audio)
-    - [Cycling '74 Max](#cycling-74-max)
-      - [Single Motion Granular](#single-motion-granular)
-      - [n4m Feature Extractor](#n4m-feature-extractor)
-      - [PoseNet for Max](#posenet-for-max)
-    - [Chromesthizer](#chromesthizer)
-    - [Plugins](#plugins)
-      - [Interval Explorer](#interval-explorer)
-  - [Visuals](#visuals)
-    - [People](#people)
-    - [Kokuyo Design Award 2022 Virtual Trophy](#kokuyo-design-award-2022-virtual-trophy)
-    - [Layered Pixelation](#layered-pixelation)
-    - [Image Tessellation](#image-tessellation)
-    - [Text-Masked Video](#text-masked-video)
-    - [Animated URL Bar](#animated-url-bar)
-    - [ASCII Art Generator](#ascii-art-generator)
+- [Audio](#audio)
+  * [Cycling '74 Max](#cycling-74-max)
+    + [Single Motion Granular](#single-motion-granular)
+    + [n4m Feature Extractor](#n4m-feature-extractor)
+    + [PoseNet for Max](#posenet-for-max)
+  * [Chromesthizer](#chromesthizer)
+  * [Web Audio Pitch Dropper](#web-audio-pitch-dropper)
+  * [Plugins](#plugins)
+    + [Interval Explorer](#interval-explorer)
+- [Visuals](#visuals)
+  * [People](#people)
+  * [Kokuyo Design Award 2022 Virtual Trophy](#kokuyo-design-award-2022-virtual-trophy)
+  * [Layered Pixelation](#layered-pixelation)
+  * [Image Tessellation](#image-tessellation)
+  * [Text-Masked Video](#text-masked-video)
+  * [Animated URL Bar](#animated-url-bar)
+  * [ASCII Art Generator](#ascii-art-generator)
 
 <!-- tocstop -->
 
@@ -55,6 +55,13 @@ A Max/MSP integration of TensorFlow.js PoseNet model via Electron. Enables real-
 [🔗 Demo](https://chromesthizer.vercel.app/) • [📝 Learn more](https://github.com/yuichkun/chromesthizer/blob/master/README.md)
 
 An audio-visual experiment that transforms images into sound using Web Audio API. Upload images and hear their sonic representation with real-time filter controls.
+
+### Web Audio Pitch Dropper
+![](https://raw.githubusercontent.com/yuichkun/web-audio-pitch-dropper/main/screenshot.gif)
+
+[🔗 Demo](https://web-audio-pitch-dropper.vercel.app/) • [📝 Learn more](https://github.com/yuichkun/web-audio-pitch-dropper)
+
+A vinyl turntable simulator enabling real-time audio playback speed manipulation through Web Audio API's AudioWorklet. Features variable-speed playback from -2x to 2x with reverse capability, and a distinctive pitch-drop effect with smooth 3-second cubic ease-out deceleration. Built with Vue and TypeScript, featuring drag-and-drop audio upload, sample-accurate interpolation, and an animated record visualization synchronized to playback speed.
 
 ### Plugins
 
