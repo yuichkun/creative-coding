@@ -28,3 +28,6 @@
 [submodule "prototypes/pitch-dropper"]
 	path = prototypes/pitch-dropper
 	url = https://github.com/yuichkun/web-audio-pitch-dropper
+[submodule "prototypes/building-audio-apps-with-js"]
+	path = prototypes/building-audio-apps-with-js
+	url = https://github.com/yuichkun/building-audio-apps-with-js
