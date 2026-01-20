@@ -31,3 +31,6 @@
 [submodule "prototypes/building-audio-apps-with-js"]
 	path = prototypes/building-audio-apps-with-js
 	url = https://github.com/yuichkun/building-audio-apps-with-js
+[submodule "prototypes/kodama-vst"]
+	path = prototypes/kodama-vst
+	url = https://github.com/yuichkun/kodama-vst

@@ -13,6 +13,7 @@ Creative coding projects by [Yuichi Yogo](https://github.com/yuichkun).
   * [Web Audio Pitch Dropper](#web-audio-pitch-dropper)
   * [Building Audio Apps with JavaScript](#building-audio-apps-with-javascript)
   * [Plugins](#plugins)
+    + [Kodama VST](#kodama-vst)
     + [Interval Explorer](#interval-explorer)
 - [Visuals](#visuals)
   * [People](#people)
@@ -72,6 +73,13 @@ A vinyl turntable simulator enabling real-time audio playback speed manipulation
 An interactive presentation exploring professional audio application development in JavaScript. Covers Web Audio API graph-based architecture, AudioWorklet's high-priority processing thread, and WebAssembly integration via JUCE and RNBO. Features live demonstrations of custom reverb implementations, convolution reverb, and experimental WebGPU-accelerated audio processing. Built with Slidev, supporting English, Japanese, and Chinese.
 
 ### Plugins
+
+#### Kodama VST
+![](https://raw.githubusercontent.com/yuichkun/kodama-vst/main/screenshot.png)
+
+[📝 Learn more](https://github.com/yuichkun/kodama-vst)
+
+A digital delay audio plugin with a shared Rust DSP core supporting dual runtimes: native plugins (VST3/AU via JUCE) and web-based audio processing (WASM + AudioWorklet). Features delay time (0-2000ms), feedback, and dry/wet mix controls. Built with a modern Vue 3 + TypeScript + Tailwind CSS interface featuring real-time parameter synchronization via JUCE WebSliderRelay.
 
 #### Interval Explorer
 ![](https://raw.githubusercontent.com/yuichkun/interval-explorer/master/interval-explorer.png)
