@@ -34,3 +34,6 @@
 [submodule "prototypes/kodama-vst"]
 	path = prototypes/kodama-vst
 	url = https://github.com/yuichkun/kodama-vst
+[submodule "prototypes/reference-graph"]
+	path = prototypes/reference-graph
+	url = https://github.com/yuichkun/reference-graph
