@@ -81,7 +81,7 @@ An interactive presentation exploring professional audio application development
 
 [📝 Learn more](https://github.com/yuichkun/kodama-vst)
 
-A digital delay audio plugin with a shared Rust DSP core supporting dual runtimes: native plugins (VST3/AU via JUCE) and web-based audio processing (WASM + AudioWorklet). Features delay time (0-2000ms), feedback, and dry/wet mix controls. Built with a modern Vue 3 + TypeScript + Tailwind CSS interface featuring real-time parameter synchronization via JUCE WebSliderRelay.
+A digital delay audio plugin with a shared Rust DSP core supporting dual runtimes: native plugins (VST3/AU via JUCE) and web-based audio processing (WASM + AudioWorklet). Features 4 parameters including Voices (1-16) for multi-tap "mountain echo" effect, delay time, feedback, and dry/wet mix. Includes real-time waveform visualization with per-voice color coding and adjustable zoom. Built with Vue 3 + TypeScript + Tailwind CSS.
 
 #### Interval Explorer
 ![](https://raw.githubusercontent.com/yuichkun/interval-explorer/master/interval-explorer.png)
