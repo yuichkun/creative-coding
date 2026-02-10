@@ -37,3 +37,6 @@
 [submodule "prototypes/reference-graph"]
 	path = prototypes/reference-graph
 	url = https://github.com/yuichkun/reference-graph
+[submodule "prototypes/music-taxonomy-graph"]
+	path = prototypes/music-taxonomy-graph
+	url = https://github.com/yuichkun/music-taxonomy-graph

@@ -17,6 +17,7 @@ Creative coding projects by [Yuichi Yogo](https://github.com/yuichkun).
     + [Interval Explorer](#interval-explorer)
 - [Visuals](#visuals)
   * [People](#people)
+  * [Music Taxonomy Graph](#music-taxonomy-graph)
   * [Kokuyo Design Award 2022 Virtual Trophy](#kokuyo-design-award-2022-virtual-trophy)
   * [Layered Pixelation](#layered-pixelation)
   * [Image Tessellation](#image-tessellation)
@@ -98,6 +99,13 @@ A Max for Live MIDI device for exploring musical interval combinations and chord
 [🎥 Video](https://www.youtube.com/watch?v=v-NETHnK0Mo) • [📝 Learn more](https://github.com/yuichkun/people)
 
 An interactive art installation exploring communication and artificial consciousness through networked string telephones with embedded AI. Each ESP32-powered cup displays text on OLED screens and plays audio, while modifying word vectors to reinterpret messages as they pass through the chain—creating a technological game of telephone that questions the nature of communication and personhood.
+
+### Music Taxonomy Graph
+![](https://raw.githubusercontent.com/yuichkun/music-taxonomy-graph/main/docs/screenshot.png)
+
+[🔗 Demo](https://music-taxonomy-graph.vercel.app/) • [📝 Learn more](https://github.com/yuichkun/music-taxonomy-graph)
+
+An interactive radial mind-map for exploring 430+ music genres across English, Japanese, and Chinese. Click a genre to fan out its sub-genres, watch inline YouTube examples in a draggable detail panel, and navigate freely through the taxonomy. Built with React 19, TypeScript, and React Flow with vanilla layout and drag/resize logic.
 
 ### Kokuyo Design Award 2022 Virtual Trophy
 <img src="./assets/kokuyo-design-award-2022.gif" width="500">
