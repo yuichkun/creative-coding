@@ -40,3 +40,6 @@
 [submodule "prototypes/music-taxonomy-graph"]
 	path = prototypes/music-taxonomy-graph
 	url = https://github.com/yuichkun/music-taxonomy-graph
+[submodule "prototypes/suna"]
+	path = prototypes/suna
+	url = https://github.com/yuichkun/suna

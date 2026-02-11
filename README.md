@@ -13,7 +13,8 @@ Creative coding projects by [Yuichi Yogo](https://github.com/yuichkun).
   * [Web Audio Pitch Dropper](#web-audio-pitch-dropper)
   * [Building Audio Apps with JavaScript](#building-audio-apps-with-javascript)
   * [Plugins](#plugins)
-    + [Kodama VST](#kodama-vst)
+    + [Kodama](#kodama)
+    + [Suna](#suna)
     + [Interval Explorer](#interval-explorer)
 - [Visuals](#visuals)
   * [People](#people)
@@ -77,12 +78,19 @@ An interactive presentation exploring professional audio application development
 
 ### Plugins
 
-#### Kodama VST
+#### Kodama
 ![](https://raw.githubusercontent.com/yuichkun/kodama-vst/main/screenshot.png)
 
 [📝 Learn more](https://github.com/yuichkun/kodama-vst)
 
 A digital delay audio plugin with a shared Rust DSP core supporting dual runtimes: native plugins (VST3/AU via JUCE) and web-based audio processing (WASM + AudioWorklet). Features 4 parameters including Voices (1-16) for multi-tap "mountain echo" effect, delay time, feedback, and dry/wet mix. Includes real-time waveform visualization with per-voice color coding and adjustable zoom. Built with Vue 3 + TypeScript + Tailwind CSS.
+
+#### Suna
+![](https://raw.githubusercontent.com/yuichkun/suna/main/docs/screenshot.gif)
+
+[🔗 Demo](https://suna-eight-chi.vercel.app/) • [📝 Learn more](https://github.com/yuichkun/suna)
+
+A delay effect plugin (VST3/AU) with DSP written in MoonBit compiled to WebAssembly. Runs on dual runtimes: native via JUCE + WAMR AOT, and browser via AudioWorklet + WASM. Features delay time (0–2000ms), feedback, and dry/wet mix controls. Shares a single Vue 3 UI and a single MoonBit DSP core across all platforms.
 
 #### Interval Explorer
 ![](https://raw.githubusercontent.com/yuichkun/interval-explorer/master/interval-explorer.png)
