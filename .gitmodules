@@ -43,3 +43,6 @@
 [submodule "prototypes/suna"]
 	path = prototypes/suna
 	url = https://github.com/yuichkun/suna
+[submodule "prototypes/extreme-vj-camp-2026"]
+	path = prototypes/extreme-vj-camp-2026
+	url = https://github.com/yuichkun/extreme-vj-camp-2026

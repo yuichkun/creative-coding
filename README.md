@@ -17,6 +17,7 @@ Creative coding projects by [Yuichi Yogo](https://github.com/yuichkun).
     + [Suna](#suna)
     + [Interval Explorer](#interval-explorer)
 - [Visuals](#visuals)
+  * [Extreme VJ Camp 2026](#extreme-vj-camp-2026)
   * [People](#people)
   * [Music Taxonomy Graph](#music-taxonomy-graph)
   * [Kokuyo Design Award 2022 Virtual Trophy](#kokuyo-design-award-2022-virtual-trophy)
@@ -100,6 +101,14 @@ A delay effect plugin (VST3/AU) with DSP written in MoonBit compiled to WebAssem
 A Max for Live MIDI device for exploring musical interval combinations and chord voicings. Features combinatorial interval generation and real-time MIDI processing for experimental composition.
 
 ## Visuals
+
+### Extreme VJ Camp 2026
+<img src="https://raw.githubusercontent.com/yuichkun/extreme-vj-camp-2026/main/screenshots/1.gif" width="500">
+<img src="https://raw.githubusercontent.com/yuichkun/extreme-vj-camp-2026/main/screenshots/2.gif" width="500">
+
+[🔗 Demo](https://yogo-extreme-vj-camp-2026.vercel.app/) • [📝 Learn more](https://github.com/yuichkun/extreme-vj-camp-2026)
+
+A browser-based real-time VJ performance tool driven by microphone input and gamepad control. Web Audio API captures audio and feeds FFT spectrum, waveform, and frequency band energies into GLSL fragment shaders as uniforms. A custom beat detection system—spectral flux onset detection, autocorrelation tempo estimation, and a phase-locked loop—keeps visuals tightly synced to rhythm. Shader scenes include a 2D audio-reactive waveform visualizer and a raymarched 3D scene with 8 smoothly morphable SDF shapes, tiled repetition, and beat-reactive scaling.
 
 ### People
 ![](https://raw.githubusercontent.com/yuichkun/people/main/people_thumbnail.png)
