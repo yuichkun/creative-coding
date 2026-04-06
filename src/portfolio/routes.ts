@@ -5,12 +5,13 @@ export interface PortfolioProjectRoute {
 }
 
 export interface HeadingNode {
-  level: 2 | 3 | 4;
+  level: number;
   title: string;
   body: string;
+  children: HeadingNode[];
 }
 
-const HEADING_PATTERN = /^(#{2,4})\s+(.+)$/gm;
+const HEADING_PATTERN = /^(#{1,6})\s+(.+)$/gm;
 const DETAIL_ROUTE_BASE = "/projects";
 
 export function normalizeLineEndings(value: string): string {
@@ -37,13 +38,13 @@ export function getContentAfterToc(readme: string): string {
     : normalized;
 }
 
-export function getHeadingNodes(readme: string): HeadingNode[] {
+function getFlatHeadingNodes(readme: string): HeadingNode[] {
   const content = getContentAfterToc(readme);
   const matches = Array.from(content.matchAll(HEADING_PATTERN));
 
   return matches.map((match, index) => {
     const nextMatch = matches[index + 1];
-    const level = match[1].length as 2 | 3 | 4;
+    const level = match[1].length;
     const title = (match[2] ?? "").trim();
     const bodyStart = (match.index ?? 0) + match[0].length;
     const bodyEnd = nextMatch?.index ?? content.length;
@@ -52,12 +53,43 @@ export function getHeadingNodes(readme: string): HeadingNode[] {
       level,
       title,
       body: content.slice(bodyStart, bodyEnd).trim(),
+      children: [],
     };
   });
 }
 
-export function isSubsectionNode(node: HeadingNode, nextNode: HeadingNode | undefined): boolean {
-  return node.level === 3 && node.body.length === 0 && nextNode?.level === 4;
+export function getHeadingNodes(readme: string): HeadingNode[] {
+  const nodes = getFlatHeadingNodes(readme);
+  const roots: HeadingNode[] = [];
+  const stack: HeadingNode[] = [];
+
+  nodes.forEach((node) => {
+    while (stack.length > 0 && stack[stack.length - 1]!.level >= node.level) {
+      stack.pop();
+    }
+
+    const parent = stack[stack.length - 1];
+
+    if (parent) {
+      parent.children.push(node);
+    } else {
+      roots.push(node);
+    }
+
+    stack.push(node);
+  });
+
+  return roots;
+}
+
+export function isLeafHeadingNode(node: HeadingNode): boolean {
+  return node.children.length === 0;
+}
+
+export function collectLeafHeadingNodes(nodes: HeadingNode[]): HeadingNode[] {
+  return nodes.flatMap((node) =>
+    isLeafHeadingNode(node) ? [node] : collectLeafHeadingNodes(node.children),
+  );
 }
 
 export function createUniqueSlug(title: string, counts: Map<string, number>): string {
@@ -74,36 +106,21 @@ export function getProjectDetailPath(routeId: string): string {
 }
 
 export function collectPortfolioProjectRoutes(readme: string): PortfolioProjectRoute[] {
-  const nodes = getHeadingNodes(readme);
+  const sectionNodes = getHeadingNodes(readme);
   const projectSlugCounts = new Map<string, number>();
   const routes: PortfolioProjectRoute[] = [];
 
-  let hasCurrentSection = false;
+  sectionNodes
+    .flatMap((node) => collectLeafHeadingNodes(node.children))
+    .forEach((node) => {
+      const routeId = createUniqueSlug(node.title, projectSlugCounts);
 
-  nodes.forEach((node, index) => {
-    const nextNode = nodes[index + 1];
-
-    if (node.level === 2) {
-      hasCurrentSection = true;
-      return;
-    }
-
-    if (!hasCurrentSection) {
-      return;
-    }
-
-    if (node.level === 3 && isSubsectionNode(node, nextNode)) {
-      return;
-    }
-
-    const routeId = createUniqueSlug(node.title, projectSlugCounts);
-
-    routes.push({
-      title: node.title,
-      routeId,
-      path: getProjectDetailPath(routeId),
+      routes.push({
+        title: node.title,
+        routeId,
+        path: getProjectDetailPath(routeId),
+      });
     });
-  });
 
   return routes;
 }
