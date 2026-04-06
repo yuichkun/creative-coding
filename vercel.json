@@ -1,5 +1,5 @@
 {
-  "installCommand": "vp install",
-  "buildCommand": "vp build",
+  "installCommand": "pnpm install",
+  "buildCommand": "pnpm build",
   "outputDirectory": "dist"
 }
