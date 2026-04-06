@@ -51,18 +51,18 @@ function normalizeLineEndings(value: string): string {
   return value.replace(/\r\n/g, "\n");
 }
 
-function isExternalUrl(url: string): boolean {
+export function isExternalUrl(url: string): boolean {
   return /^[a-z][a-z\d+.-]*:/i.test(url) || url.startsWith("//");
 }
 
-function toWorkspaceRelativePath(value: string): string {
+export function toWorkspaceRelativePath(value: string): string {
   return value
     .replace(/\\/g, "/")
     .replace(new RegExp(`^${WORKSPACE_ROOT}/`), "")
     .replace(/^\//, "");
 }
 
-function normalizePathSegments(path: string): string {
+export function normalizePathSegments(path: string): string {
   const normalized = path.replace(/\\/g, "/");
   const segments = normalized.split("/");
   const resolved: string[] = [];
@@ -92,9 +92,9 @@ function getDirectoryName(filePath: string): string {
   return segments.join("/");
 }
 
-function resolveReadmeRelativeAssetPath(readmePath: string, assetUrl: string): string {
+export function resolveReadmeRelativePath(readmePath: string, relativePath: string): string {
   const directory = getDirectoryName(readmePath);
-  const cleanedUrl = assetUrl.replace(/\\/g, "/").replace(/^\//, "");
+  const cleanedUrl = relativePath.replace(/\\/g, "/").replace(/^\//, "");
 
   return normalizePathSegments(directory ? `${directory}/${cleanedUrl}` : cleanedUrl);
 }
@@ -103,7 +103,7 @@ function getDefaultAssetUrl(workspaceRelativeAssetPath: string): string | null {
   return LOCAL_ASSET_URLS[workspaceRelativeAssetPath] ?? null;
 }
 
-function normalizeImageUrl(
+export function normalizeReadmeAssetUrl(
   originalUrl: string,
   readmePath: string,
   options: ReadmeMediaNormalizationOptions,
@@ -113,7 +113,7 @@ function normalizeImageUrl(
   }
 
   const resolveAssetUrl = options.resolveAssetUrl ?? getDefaultAssetUrl;
-  const workspaceRelativeAssetPath = resolveReadmeRelativeAssetPath(readmePath, originalUrl);
+  const workspaceRelativeAssetPath = resolveReadmeRelativePath(readmePath, originalUrl);
 
   return resolveAssetUrl(workspaceRelativeAssetPath);
 }
@@ -142,7 +142,7 @@ function normalizeLinkedMarkdownImage(
   readmePath: string,
   options: ReadmeMediaNormalizationOptions,
 ): NormalizedImageNode {
-  const normalizedUrl = normalizeImageUrl(imageUrl, readmePath, options);
+  const normalizedUrl = normalizeReadmeAssetUrl(imageUrl, readmePath, options);
 
   if (!normalizedUrl) {
     return {
@@ -163,7 +163,7 @@ function normalizeStandaloneMarkdownImage(
   readmePath: string,
   options: ReadmeMediaNormalizationOptions,
 ): NormalizedImageNode {
-  const normalizedUrl = normalizeImageUrl(imageUrl, readmePath, options);
+  const normalizedUrl = normalizeReadmeAssetUrl(imageUrl, readmePath, options);
 
   if (!normalizedUrl) {
     return { media: null, replacement: "" };
@@ -181,7 +181,7 @@ function normalizeHtmlImage(
   readmePath: string,
   options: ReadmeMediaNormalizationOptions,
 ): NormalizedImageNode {
-  const normalizedUrl = normalizeImageUrl(imageUrl, readmePath, options);
+  const normalizedUrl = normalizeReadmeAssetUrl(imageUrl, readmePath, options);
   const alt = HTML_IMAGE_ALT_PATTERN.exec(html)?.[1] ?? "";
 
   if (!normalizedUrl) {
