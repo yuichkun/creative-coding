@@ -4,13 +4,14 @@ import {
   buildProjectDetailPage,
   parsePortfolioHomepage,
   parsePortfolioHomepageModel,
+  type LocalProjectReadmeManifestEntry,
   type HomepageProject,
   type ProjectDetailPage,
   resolveProjectDetailPage,
   resolveProjectReadmePath,
 } from "../readmeContracts";
 import { normalizeReadmeMedia } from "../media";
-import { parseReadmeBody } from "../readmeBody";
+import { collectPortfolioProjectRoutes } from "../routes";
 
 import rootReadme from "../../../README.md?raw";
 import intervalExplorerReadme from "../../../prototypes/interval-explorer/README.md?raw";
@@ -72,6 +73,49 @@ function getProject(projects: HomepageProject[], title: string): HomepageProject
 
   return project as HomepageProject;
 }
+
+const nestedExpansionReadme = `
+# Portfolio
+
+<!-- tocstop -->
+
+## Audio
+
+### Software
+This group now has intro copy, so grouping cannot depend on an empty body.
+
+#### Plugins
+Plugin experiments.
+
+##### Moon Delay
+[🔗 Demo](https://example.com/moon-delay)
+
+A multi-stage audio effect.
+
+#### Utilities
+
+##### Signal Scope
+[📝 Learn more](https://example.com/signal-scope)
+
+A visualization tool for debugging audio signals.
+
+### Direct Project
+[🔗 Demo](https://example.com/direct-project)
+
+A project that stays directly under the section.
+
+## Visuals
+
+### Installations
+Curated installation work.
+
+#### Projection Mapping
+
+##### Light Field
+[🔗 Demo](https://example.com/light-field)
+
+An immersive projection mapping piece.
+`;
 
 describe("README parsing contracts", () => {
   const projects = parsePortfolioHomepage(rootReadme);
@@ -236,6 +280,7 @@ describe("README parsing contracts", () => {
               getProject(projects, "n4m Feature Extractor"),
               getProject(projects, "PoseNet for Max"),
             ],
+            groups: [],
           },
           {
             title: "Plugins",
@@ -245,6 +290,29 @@ describe("README parsing contracts", () => {
               getProject(projects, "Suna"),
               getProject(projects, "Interval Explorer"),
             ],
+            groups: [],
+          },
+        ],
+        groups: [
+          {
+            title: "Cycling '74 Max",
+            slug: "cycling-74-max",
+            projects: [
+              getProject(projects, "Single Motion Granular"),
+              getProject(projects, "n4m Feature Extractor"),
+              getProject(projects, "PoseNet for Max"),
+            ],
+            groups: [],
+          },
+          {
+            title: "Plugins",
+            slug: "plugins",
+            projects: [
+              getProject(projects, "Kodama"),
+              getProject(projects, "Suna"),
+              getProject(projects, "Interval Explorer"),
+            ],
+            groups: [],
           },
         ],
       },
@@ -263,12 +331,14 @@ describe("README parsing contracts", () => {
           getProject(projects, "ASCII Art Generator"),
         ],
         subsections: [],
+        groups: [],
       },
       {
         title: "Developer Tools",
         slug: "developer-tools",
         projects: [getProject(projects, "Reference Graph")],
         subsections: [],
+        groups: [],
       },
     ]);
   });
@@ -277,6 +347,7 @@ describe("README parsing contracts", () => {
     expect(getProject(projects, "Single Motion Granular")).toMatchObject({
       section: { title: "Audio", slug: "audio" },
       subsection: { title: "Cycling '74 Max", slug: "cycling-74-max" },
+      groupPath: [{ title: "Cycling '74 Max", slug: "cycling-74-max" }],
       slug: "single-motion-granular",
       routeId: "single-motion-granular",
       primaryLink: {
@@ -324,6 +395,155 @@ describe("README parsing contracts", () => {
       "Text-Masked Video",
       "Animated URL Bar",
       "ASCII Art Generator",
+    ]);
+  });
+
+  it("derives nested groups from heading children instead of hardcoded H2/H3/H4 heuristics", () => {
+    const nestedHomepage = parsePortfolioHomepageModel(nestedExpansionReadme);
+    const nestedProjects = nestedHomepage.projects;
+
+    expect(nestedProjects.map((project) => project.title)).toStrictEqual([
+      "Moon Delay",
+      "Signal Scope",
+      "Direct Project",
+      "Light Field",
+    ]);
+
+    expect(getProject(nestedProjects, "Moon Delay")).toMatchObject({
+      section: { title: "Audio", slug: "audio" },
+      subsection: { title: "Software", slug: "software" },
+      groupPath: [
+        { title: "Software", slug: "software" },
+        { title: "Plugins", slug: "plugins" },
+      ],
+    });
+    expect(getProject(nestedProjects, "Signal Scope")).toMatchObject({
+      section: { title: "Audio", slug: "audio" },
+      subsection: { title: "Software", slug: "software" },
+      groupPath: [
+        { title: "Software", slug: "software" },
+        { title: "Utilities", slug: "utilities" },
+      ],
+    });
+    expect(getProject(nestedProjects, "Direct Project")).toMatchObject({
+      section: { title: "Audio", slug: "audio" },
+      groupPath: [],
+    });
+
+    expect(nestedHomepage.sections).toStrictEqual([
+      {
+        title: "Audio",
+        slug: "audio",
+        projects: [getProject(nestedProjects, "Direct Project")],
+        subsections: [
+          {
+            title: "Software",
+            slug: "software",
+            projects: [
+              getProject(nestedProjects, "Moon Delay"),
+              getProject(nestedProjects, "Signal Scope"),
+            ],
+            groups: [
+              {
+                title: "Plugins",
+                slug: "plugins",
+                projects: [getProject(nestedProjects, "Moon Delay")],
+                groups: [],
+              },
+              {
+                title: "Utilities",
+                slug: "utilities",
+                projects: [getProject(nestedProjects, "Signal Scope")],
+                groups: [],
+              },
+            ],
+          },
+        ],
+        groups: [
+          {
+            title: "Software",
+            slug: "software",
+            projects: [
+              getProject(nestedProjects, "Moon Delay"),
+              getProject(nestedProjects, "Signal Scope"),
+            ],
+            groups: [
+              {
+                title: "Plugins",
+                slug: "plugins",
+                projects: [getProject(nestedProjects, "Moon Delay")],
+                groups: [],
+              },
+              {
+                title: "Utilities",
+                slug: "utilities",
+                projects: [getProject(nestedProjects, "Signal Scope")],
+                groups: [],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        title: "Visuals",
+        slug: "visuals",
+        projects: [],
+        subsections: [
+          {
+            title: "Installations",
+            slug: "installations",
+            projects: [getProject(nestedProjects, "Light Field")],
+            groups: [
+              {
+                title: "Projection Mapping",
+                slug: "projection-mapping",
+                projects: [getProject(nestedProjects, "Light Field")],
+                groups: [],
+              },
+            ],
+          },
+        ],
+        groups: [
+          {
+            title: "Installations",
+            slug: "installations",
+            projects: [getProject(nestedProjects, "Light Field")],
+            groups: [
+              {
+                title: "Projection Mapping",
+                slug: "projection-mapping",
+                projects: [getProject(nestedProjects, "Light Field")],
+                groups: [],
+              },
+            ],
+          },
+        ],
+      },
+    ]);
+  });
+
+  it("keeps detail routes in document order across deeper nested category expansion", () => {
+    expect(collectPortfolioProjectRoutes(nestedExpansionReadme)).toStrictEqual([
+      {
+        title: "Moon Delay",
+        routeId: "moon-delay",
+        path: "/projects/moon-delay/",
+      },
+      {
+        title: "Signal Scope",
+        routeId: "signal-scope",
+        path: "/projects/signal-scope/",
+      },
+      {
+        title: "Direct Project",
+        routeId: "direct-project",
+        path: "/projects/direct-project/",
+      },
+      {
+        title: "Light Field",
+        routeId: "light-field",
+        path: "/projects/light-field/",
+      },
     ]);
   });
 
@@ -635,9 +855,9 @@ describe("README parsing contracts", () => {
     ]);
   });
 
-  it("uses per-project README content for the detail page when available", () => {
+  it("uses per-project README content for the detail page when available", async () => {
     const homepageProject = getProject(projects, "Layered Pixelation");
-    const detailPage = buildProjectDetailPage(
+    const detailPage = await buildProjectDetailPage(
       homepageProject,
       validProjectReadme,
       "/workspace/prototypes/layered-pixelation/README.md",
@@ -663,47 +883,86 @@ describe("README parsing contracts", () => {
         },
       ],
       imageUrls: [detailPage.imageUrls[0]!],
-      contentMarkdown: `![Detail screenshot](${detailPage.imageUrls[0]!})\n\n[🔗 Demo](https://layered-pixelation-detail.example.com/) • [📝 Learn more](https://example.com/layered-pixelation)\n\nThis detailed README content should drive the detail page instead of the homepage summary.\n\nIt documents the rendering pipeline, the shader layering approach, and the interaction model.`,
+      contentMarkdown: `# Layered Pixelation\n\n![Detail screenshot](${detailPage.imageUrls[0]!})\n\n[🔗 Demo](https://layered-pixelation-detail.example.com/) • [📝 Learn more](https://example.com/layered-pixelation)\n\nThis detailed README content should drive the detail page instead of the homepage summary.\n\nIt documents the rendering pipeline, the shader layering approach, and the interaction model.`,
       source: "project-readme",
     });
+    expect(detailPage.contentHtml).toContain('<h1 id="layered-pixelation">Layered Pixelation</h1>');
+    expect(detailPage.contentHtml).toContain(
+      `<img src="${detailPage.imageUrls[0]!}" alt="Detail screenshot">`,
+    );
+    expect(detailPage.contentHtml).toContain(
+      '<a href="https://layered-pixelation-detail.example.com/">🔗 Demo</a>',
+    );
+    expect(detailPage.contentHtml).toContain(
+      "<p>This detailed README content should drive the detail page instead of the homepage summary.</p>",
+    );
     expectNormalizedAssetUrl(detailPage.imageUrls[0]!, "screenshot.gif");
   });
 
-  it("parses normalized README bodies into a safe supported block subset", () => {
+  it("renders GFM tables into semantic HTML", async () => {
+    const homepageProject = getProject(projects, "Suna");
+    const detailPage = await buildProjectDetailPage(
+      homepageProject,
+      sunaReadme,
+      "/workspace/prototypes/suna/README.md",
+    );
+
+    expect(detailPage.contentHtml).toContain("<table>");
+    expect(detailPage.contentHtml).toContain("<thead>");
+    expect(detailPage.contentHtml).toContain("<tbody>");
+    expect(detailPage.contentHtml).toContain("<td><code>setup:web</code></td>");
+  });
+
+  it("renders Mermaid blocks into static SVG output through rehype-mermaid", async () => {
     const homepageProject = getProject(projects, "Web Audio Pitch Dropper");
-    const detailPage = buildProjectDetailPage(
+    const detailPage = await buildProjectDetailPage(
       homepageProject,
       pitchDropperReadme,
       "/workspace/prototypes/pitch-dropper/README.md",
     );
-    const blocks = parseReadmeBody(detailPage.contentMarkdown);
 
-    expect(blocks.some((block) => block.type === "image")).toBe(true);
-    expect(
-      blocks.some(
-        (block) =>
-          block.type === "heading" && block.level === 2 && block.content[0]?.type === "text",
-      ),
-    ).toBe(true);
-    expect(
-      blocks.some((block) => block.type === "list" && !block.ordered && block.items.length >= 4),
-    ).toBe(true);
-    expect(
-      blocks.some(
-        (block) =>
-          block.type === "code" &&
-          block.language === "mermaid" &&
-          block.value.includes("sequenceDiagram"),
-      ),
-    ).toBe(true);
-    expect(() =>
-      parseReadmeBody("<table><tr><td>unsupported</td></tr></table>\n\nBody text."),
-    ).not.toThrow();
+    expect(detailPage.contentHtml).toContain(`<img src="${detailPage.imageUrls[0]!}" alt="Demo">`);
+    expect(detailPage.contentHtml).toContain('<h2 id="features">Features</h2>');
+    expect(detailPage.contentHtml).toContain("<ul>");
+    expect(detailPage.contentHtml).toContain("<svg");
+    expect(detailPage.contentHtml).toContain('aria-roledescription="sequence"');
+    expect(detailPage.contentHtml).not.toContain('class="language-mermaid"');
+    expect(detailPage.contentHtml).not.toContain('<pre class="mermaid">');
   });
 
-  it("falls back to a minimal detail page when the project README is missing or unparseable", () => {
+  it("rewrites local project README links inside rendered markdown to internal detail routes", async () => {
     const homepageProject = getProject(projects, "Layered Pixelation");
-    const fallbackPage = buildProjectDetailPage(homepageProject, null);
+    const detailPage = await buildProjectDetailPage(
+      homepageProject,
+      [
+        "# Layered Pixelation",
+        "",
+        "[Reference Graph docs](../reference-graph/README.md)",
+        "",
+        "[Contributor guide](../reference-graph/CONTRIBUTING.md)",
+      ].join("\n"),
+      "/workspace/prototypes/layered-pixelation/README.md",
+      {
+        internalReadmeRoutes: [
+          {
+            readmePath: "/workspace/prototypes/reference-graph/README.md",
+            routeId: "reference-graph",
+            detailPath: "/projects/reference-graph/",
+            title: "Reference Graph",
+          },
+        ],
+      },
+    );
+
+    expect(detailPage.contentHtml).toContain('href="/projects/reference-graph/"');
+    expect(detailPage.contentHtml).toContain('data-portfolio-link-kind="internal-detail"');
+    expect(detailPage.contentHtml).toContain('href="/prototypes/reference-graph/CONTRIBUTING.md"');
+    expect(detailPage.contentHtml).toContain('data-portfolio-link-kind="local-doc"');
+  });
+
+  it("falls back to a minimal detail page only when no local README is available", async () => {
+    const homepageProject = getProject(projects, "Layered Pixelation");
+    const fallbackPage = await buildProjectDetailPage(homepageProject, null);
     const expectedFallback = {
       title: "Layered Pixelation",
       summary:
@@ -729,10 +988,20 @@ describe("README parsing contracts", () => {
     };
 
     expect(simplifyDetailPage(fallbackPage)).toStrictEqual(expectedFallback);
+    expect(fallbackPage.contentHtml).toContain(`<img src="${fallbackPage.imageUrls[0]!}" alt="">`);
     expectNormalizedAssetUrl(fallbackPage.imageUrls[0]!, "screenshot.gif");
-    expect(
-      simplifyDetailPage(buildProjectDetailPage(homepageProject, invalidProjectReadme)),
-    ).toStrictEqual(expectedFallback);
+  });
+
+  it("keeps resolved local README content even when it does not start with a markdown H1", async () => {
+    const homepageProject = getProject(projects, "Layered Pixelation");
+    const detailPage = await buildProjectDetailPage(homepageProject, invalidProjectReadme);
+
+    expect(detailPage.source).toBe("project-readme");
+    expect(detailPage.contentMarkdown).toContain("Layered Pixelation");
+    expect(detailPage.contentHtml).toContain("<p>Layered Pixelation</p>");
+    expect(detailPage.contentHtml).toContain(
+      "<p>This fixture is intentionally missing a markdown H1 so the detail parser treats it as unparseable.</p>",
+    );
   });
 
   it("resolves a direct local README link when the root README already points to a canonical local file", async () => {
@@ -764,6 +1033,31 @@ describe("README parsing contracts", () => {
     );
   });
 
+  it("fails clearly when deterministic local README matching is ambiguous", async () => {
+    const ambiguousManifest: LocalProjectReadmeManifestEntry[] = [
+      {
+        folder: "pitch-dropper-a",
+        folderSlug: "pitch-dropper-a",
+        readmePath: "/workspace/prototypes/pitch-dropper-a/README.md",
+        title: "Web Audio Pitch Dropper",
+        titleSlug: "web-audio-pitch-dropper",
+      },
+      {
+        folder: "pitch-dropper-b",
+        folderSlug: "pitch-dropper-b",
+        readmePath: "/workspace/prototypes/pitch-dropper-b/README.md",
+        title: "Web Audio Pitch Dropper",
+        titleSlug: "web-audio-pitch-dropper",
+      },
+    ];
+
+    await expect(
+      resolveProjectReadmePath(getProject(projects, "Web Audio Pitch Dropper"), {
+        localReadmes: ambiguousManifest,
+      }),
+    ).rejects.toThrow(/Ambiguous local README resolution/);
+  });
+
   it("falls back cleanly when a project has no resolvable canonical local README", async () => {
     const kokuyoProject = getProject(projects, "Kokuyo Design Award 2022 Virtual Trophy");
     const asciiProject = getProject(projects, "ASCII Art Generator");
@@ -771,7 +1065,9 @@ describe("README parsing contracts", () => {
     await expect(resolveProjectReadmePath(kokuyoProject)).resolves.toBeNull();
     await expect(resolveProjectReadmePath(asciiProject)).resolves.toBeNull();
 
-    await expect(resolveProjectDetailPage(kokuyoProject)).resolves.toStrictEqual({
+    const fallbackDetailPage = await resolveProjectDetailPage(kokuyoProject);
+
+    expect(simplifyDetailPage(fallbackDetailPage)).toStrictEqual({
       title: "Kokuyo Design Award 2022 Virtual Trophy",
       summary:
         "A [Next.js](https://nextjs.org/)-based 3D trophy viewer that displays time-evolving models using [model-viewer](https://modelviewer.dev/). Features daily model transitions with extensive [Playwright](https://playwright.dev/) testing to ensure consistent rendering across 366 days.",
@@ -794,6 +1090,9 @@ describe("README parsing contracts", () => {
       contentMarkdown: `![](${getProject(projects, "Kokuyo Design Award 2022 Virtual Trophy").imageUrls[0]!})\n\n[🔗 Demo](https://www.kokuyo.co.jp/trophy2022/) • [📝 Learn more](https://yogo-management-office.com/works/kokuyo-design-award-2022)\n\nA [Next.js](https://nextjs.org/)-based 3D trophy viewer that displays time-evolving models using [model-viewer](https://modelviewer.dev/). Features daily model transitions with extensive [Playwright](https://playwright.dev/) testing to ensure consistent rendering across 366 days.`,
       source: "homepage-fallback",
     });
+    expect(fallbackDetailPage.contentHtml).toContain(
+      '<a href="https://www.kokuyo.co.jp/trophy2022/">🔗 Demo</a>',
+    );
   });
 
   it("ignores localized sibling and nested descendant READMEs in favor of the project-root README", async () => {

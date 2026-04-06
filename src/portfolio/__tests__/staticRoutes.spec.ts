@@ -56,6 +56,27 @@ describe("static portfolio routes", () => {
     });
   });
 
+  it("rewrites learn-more actions to internal detail routes when a local project README backs the page", async () => {
+    const siteData = await buildPortfolioSiteData();
+    const kodamaProject = siteData.homepage.projects.find((project) => project.routeId === "kodama");
+    const kokuyoProject = siteData.homepage.projects.find(
+      (project) => project.routeId === "kokuyo-design-award-2022-virtual-trophy",
+    );
+
+    expect(kodamaProject?.actionLinks.find((link) => link.type === "learn-more")).toMatchObject({
+      href: "/projects/kodama/",
+      destinationKind: "internal-detail",
+      sourceUrl: "https://github.com/yuichkun/kodama-vst",
+      workspacePath: "/workspace/prototypes/kodama-vst/README.md",
+    });
+    expect(
+      kokuyoProject?.actionLinks.find((link) => link.type === "learn-more"),
+    ).toMatchObject({
+      href: "https://yogo-management-office.com/works/kokuyo-design-award-2022",
+      destinationKind: "external",
+    });
+  });
+
   it("matches direct detail paths without relying on a client-side router", async () => {
     const siteData = await buildPortfolioSiteData();
 
