@@ -1,0 +1,5 @@
+{
+  "installCommand": "vp install",
+  "buildCommand": "vp build",
+  "outputDirectory": "dist"
+}

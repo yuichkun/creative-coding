@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Vite+
+        uses: voidzero-dev/setup-vp@v1
+        with:
+          node-version: "22"
+          cache: true
+
+      - name: Install dependencies
+        run: vp install
+
+      - name: Check formatting, linting, and types
+        run: >-
+          vp check package.json pnpm-workspace.yaml index.html vite.config.ts
+          tsconfig.json tsconfig.app.json tsconfig.node.json env.d.ts src
+          vercel.json
+
+      - name: Run tests
+        run: vp test
+
+      - name: Build static site
+        run: vp build
