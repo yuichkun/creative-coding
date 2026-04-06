@@ -63,7 +63,7 @@ describe("portfolio site flow", () => {
       },
     });
     expect(html).toContain("Visuals");
-    expect(html).toContain("README");
+    expect(html).toContain("Portfolio");
     expect(html).toContain('<h1 id="layered-pixelation">Layered Pixelation</h1>');
     expect(html).toContain("Demo:");
     expect(html).toContain(
@@ -94,7 +94,7 @@ describe("portfolio site flow", () => {
       },
     });
     expect(html).toContain("Visuals");
-    expect(html).toContain("README");
+    expect(html).toContain("Portfolio");
     expect(html).toContain("🔗 Demo");
     expect(html).toContain("📝 Learn more");
     expect(html).toContain(

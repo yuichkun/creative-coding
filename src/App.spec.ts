@@ -6,9 +6,41 @@ import App from "./App.vue";
 import rootReadme from "../README.md?raw";
 import validProjectReadme from "./portfolio/__tests__/fixtures/valid-project-readme.md?raw";
 import { parsePortfolioHomepageModel } from "./portfolio/homepage";
-import { renderProjectMarkdown } from "./portfolio/markdown";
+import { applyResolvedProjectMetadata } from "./portfolio/links";
+
 import { buildProjectDetailPage } from "./portfolio/readmeContracts";
 import { getProjectDetailPath } from "./portfolio/routes";
+import type { InternalReadmeRoute } from "./portfolio/types";
+
+function enrichHomepage(
+  internalReadmeRoutes: InternalReadmeRoute[],
+  resolvedPaths: Record<string, string>,
+) {
+  const homepage = parsePortfolioHomepageModel(rootReadme);
+  const enrichedProjects = homepage.projects.map((p) =>
+    applyResolvedProjectMetadata(
+      p,
+      resolvedPaths[p.routeId] ?? null,
+      internalReadmeRoutes,
+    ),
+  );
+  const projectsByRouteId = new Map(enrichedProjects.map((p) => [p.routeId, p]));
+
+  return {
+    ...homepage,
+    projects: enrichedProjects,
+    sections: homepage.sections.map((section) => ({
+      ...section,
+      projects: section.projects.map((p) => projectsByRouteId.get(p.routeId) ?? p),
+      subsections: section.subsections.map((sub) => ({
+        ...sub,
+        projects: sub.projects.map((p) => projectsByRouteId.get(p.routeId) ?? p),
+        groups: sub.groups,
+      })),
+      groups: section.groups,
+    })),
+  };
+}
 
 describe("App", () => {
   it("exports a Vue component", () => {
@@ -16,26 +48,23 @@ describe("App", () => {
   });
 
   it("renders the root README flow on the homepage instead of a synthetic project catalog", async () => {
-    const homepage = parsePortfolioHomepageModel(rootReadme);
-    homepage.documentHtml = await renderProjectMarkdown(rootReadme, {
-      readmePath: "/workspace/README.md",
-      internalReadmeRoutes: [
-        {
-          readmePath: "/workspace/prototypes/layered-pixelation/README.md",
-          routeId: "layered-pixelation",
-          detailPath: "/projects/layered-pixelation/",
-          title: "Layered Pixelation",
-        },
-        {
-          readmePath: "/workspace/prototypes/kodama-vst/README.md",
-          routeId: "kodama",
-          detailPath: "/projects/kodama/",
-          title: "Kodama",
-        },
-      ],
-      explicitLinkRewrites: {
-        "https://github.com/yuichkun/kodama-vst": "/projects/kodama/",
+    const internalReadmeRoutes: InternalReadmeRoute[] = [
+      {
+        readmePath: "/workspace/prototypes/layered-pixelation/README.md",
+        routeId: "layered-pixelation",
+        detailPath: "/projects/layered-pixelation/",
+        title: "Layered Pixelation",
       },
+      {
+        readmePath: "/workspace/prototypes/kodama-vst/README.md",
+        routeId: "kodama",
+        detailPath: "/projects/kodama/",
+        title: "Kodama",
+      },
+    ];
+    const homepage = enrichHomepage(internalReadmeRoutes, {
+      kodama: "/workspace/prototypes/kodama-vst/README.md",
+      "layered-pixelation": "/workspace/prototypes/layered-pixelation/README.md",
     });
     const html = await renderToString(
       createSSRApp(App, {
@@ -51,7 +80,7 @@ describe("App", () => {
     expect(html).toContain("⚡ Code + Art");
     expect(html).toContain("Creative coding projects by");
     expect(html).toContain('href="#audio"');
-    expect(html).toContain("Cycling '74 Max");
+    expect(html).toContain("Cycling &#39;74 Max");
     expect(html).toContain("Single Motion Granular");
     expect(html).toContain('href="/projects/layered-pixelation/"');
     expect(html).toContain('href="/projects/kodama/"');
@@ -97,7 +126,7 @@ describe("App", () => {
     expect(html).toContain(
       "This detailed README content should drive the detail page instead of the homepage summary.",
     );
-    expect(html).toContain("README");
+    expect(html).toContain("Portfolio");
     expect(html).not.toContain("Project details");
     expect(html).not.toContain("Overview and links");
     expect(html).not.toContain("Gallery");
