@@ -76,9 +76,8 @@ describe("App", () => {
       }),
     );
 
-    expect(html).toContain("Portfolio");
-    expect(html).toContain("⚡ Code + Art");
-    expect(html).toContain("Creative coding projects by");
+    expect(html).toContain("Yuichi Yogo");
+    expect(html).toContain("Creative Coding Portfolio");
     expect(html).toContain('href="#audio"');
     expect(html).toContain("Cycling &#39;74 Max");
     expect(html).toContain("Single Motion Granular");

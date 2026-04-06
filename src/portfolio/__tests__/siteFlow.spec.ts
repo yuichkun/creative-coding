@@ -26,14 +26,14 @@ describe("portfolio site flow", () => {
     const { siteData, route, html } = await renderPortfolioPath("/");
 
     expect(route).toStrictEqual({ type: "home" });
-    expect(html).toContain("⚡ Code + Art");
-    expect(html).toContain("Creative coding projects by");
+    expect(html).toContain("Yuichi Yogo");
+    expect(html).toContain("Creative Coding Portfolio");
     expect(html).toContain('href="#audio"');
     expect(html).toContain('href="#visuals"');
     expect(html).toContain(
       'src="https://raw.githubusercontent.com/yuichkun/kentaro-granular-web/master/single-motion-granular.gif"',
     );
-    expect(html.indexOf("⚡ Code + Art")).toBeLessThan(html.indexOf("Audio"));
+    expect(html.indexOf("Yuichi Yogo")).toBeLessThan(html.indexOf("Audio"));
     expect(html.indexOf("Audio")).toBeLessThan(html.indexOf("Visuals"));
     expect(html).toContain('href="/projects/layered-pixelation/"');
     expect(html).toContain('href="/projects/kodama/"');
