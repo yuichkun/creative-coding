@@ -22,25 +22,30 @@ async function renderPortfolioPath(pathname: string) {
 }
 
 describe("portfolio site flow", () => {
-  it("renders the homepage project cards in README order with direct detail links", async () => {
+  it("renders the root README opening flow on the homepage with authored order and internal rewrites where available", async () => {
     const { siteData, route, html } = await renderPortfolioPath("/");
 
     expect(route).toStrictEqual({ type: "home" });
-    expect(html).toContain("作品一覧");
-    expect(html).toContain("README の階層順をそのまま保ち");
-
-    const renderedRouteIds = Array.from(
-      html.matchAll(/href="\/projects\/([^"/]+)\/"/g),
-      (match) => match[1],
+    expect(html).toContain("⚡ Code + Art");
+    expect(html).toContain("Creative coding projects by");
+    expect(html).toContain('href="#audio"');
+    expect(html).toContain('href="#visuals"');
+    expect(html).toContain(
+      'src="https://raw.githubusercontent.com/yuichkun/kentaro-granular-web/master/single-motion-granular.gif"',
     );
-    const renderedProjectOrder = siteData.homepage.sections.flatMap((section) => [
-      ...section.projects,
-      ...section.subsections.flatMap((subsection) => subsection.projects),
-    ]);
-
-    expect(renderedRouteIds).toStrictEqual(renderedProjectOrder.map((project) => project.routeId));
-    expect(renderedRouteIds).toContain("layered-pixelation");
-    expect(renderedRouteIds).toContain("kokuyo-design-award-2022-virtual-trophy");
+    expect(html.indexOf("⚡ Code + Art")).toBeLessThan(html.indexOf("Audio"));
+    expect(html.indexOf("Audio")).toBeLessThan(html.indexOf("Visuals"));
+    expect(html).toContain('href="/projects/layered-pixelation/"');
+    expect(html).toContain('href="/projects/kodama/"');
+    expect(html).toContain('href="/projects/interval-explorer/"');
+    expect(html).toContain('href="/projects/reference-graph/"');
+    expect(html).not.toContain('href="https://github.com/yuichkun/kodama-vst"');
+    expect(html).not.toContain('href="https://github.com/yuichkun/interval-explorer"');
+    expect(html).not.toContain('href="https://github.com/yuichkun/reference-graph"');
+    expect(html).toContain('src="/assets/kokuyo-design-award-2022.gif"');
+    expect(html).not.toContain("portfolio index");
+    expect(html).not.toContain("View project");
+    expect(siteData.homepage.documentTitle).toBe("⚡ Code + Art");
   });
 
   it("navigates from the homepage to the local README-backed Layered Pixelation detail route", async () => {
@@ -58,16 +63,20 @@ describe("portfolio site flow", () => {
       },
     });
     expect(html).toContain("Visuals");
-    expect(html).toContain("プロジェクト README の本文");
-    expect(html).toContain(
-      "Interactive WebGL experiment with dynamic pixelation effects and mouse-based distortion.",
-    );
+    expect(html).toContain("README");
+    expect(html).toContain('<h1 id="layered-pixelation">Layered Pixelation</h1>');
+    expect(html).toContain("Demo:");
     expect(html).toContain(
       "An interactive WebGL experiment that creates a mesmerizing layered pixelation effect using custom shaders.",
     );
     expect(html).toContain("Interactive mouse-based distortion");
     expect(html).toContain("Custom GLSL Shaders");
     expect(html).toContain('href="https://layered-pixelation.vercel.app/"');
+    expect(html).not.toContain("Project details");
+    expect(html).not.toContain("Overview and links");
+    expect(html).not.toContain("About this project");
+    expect(html).not.toContain("Detailed project write-up");
+    expect(html).not.toContain("Project gallery");
   });
 
   it("renders the Kokuyo fallback detail route from root README metadata when no local README is available", async () => {
@@ -85,14 +94,20 @@ describe("portfolio site flow", () => {
       },
     });
     expect(html).toContain("Visuals");
-    expect(html).toContain("ルート README 由来の代替本文");
+    expect(html).toContain("README");
+    expect(html).toContain("🔗 Demo");
+    expect(html).toContain("📝 Learn more");
     expect(html).toContain(
-      "A [Next.js](https://nextjs.org/)-based 3D trophy viewer that displays time-evolving models using [model-viewer](https://modelviewer.dev/). Features daily model transitions with extensive [Playwright](https://playwright.dev/) testing to ensure consistent rendering across 366 days.",
+      "A <a href=\"https://nextjs.org/\">Next.js</a>-based 3D trophy viewer that displays time-evolving models using <a href=\"https://modelviewer.dev/\">model-viewer</a>. Features daily model transitions with extensive <a href=\"https://playwright.dev/\">Playwright</a> testing to ensure consistent rendering across 366 days.",
     );
     expect(html).toContain('href="https://www.kokuyo.co.jp/trophy2022/"');
     expect(html).toContain(
       'href="https://yogo-management-office.com/works/kokuyo-design-award-2022"',
     );
-    expect(html).not.toContain("プロジェクト README の本文");
+    expect(html).not.toContain("Project details");
+    expect(html).not.toContain("Overview and links");
+    expect(html).not.toContain("About this project");
+    expect(html).not.toContain("Detailed project write-up");
+    expect(html).not.toContain("Portfolio overview currently available");
   });
 });
